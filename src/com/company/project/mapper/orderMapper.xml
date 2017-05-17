@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.project.mapper.orderMapper">
+	<!-- com.company.project.model 包下的所有类已使用自动别名 -->
+	
+	<!-- 因为实体类属性名和表字段名对不上的原因，将查不出结果 -->
+	<select id="getOrderById" parameterType="int" resultType="Order">
+		SELECT * FROM orders WHERE id = #{id}
+	</select>
+	
+	<!-- 在 SQL 语句中指定查询字段名的别名与实体类属性名一致，是解决方法之一 -->
+	<select id="getOrderUseAlias" parameterType="int" resultType="Order">
+		SELECT order_id id, order_no orderNo, order_price price FROM orders WHERE order_id = #{id}
+	</select>
+	
+	<!-- 使用 resultMap 是另一种解决方法 -->
+	<select id="getOrderUseResultMap" parameterType="int" resultMap="orderResultMap">
+		SELECT * FROM orders WHERE order_id = #{id}
+	</select>
+	
+	<!-- 使用 resultMap 手动完成实体类属性和表字段的映射 -->
+	<resultMap type="Order" id="orderResultMap">
+		<!-- id 属性映射主键字段 -->
+		<id property="id" column="order_id"/>
+		<!-- result 属性映射非主键字段 -->
+		<result property="orderNo" column="order_no"/>
+		<result property="price" column="order_price"/>
+	</resultMap>
+</mapper>

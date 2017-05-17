@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 引用 db.properties 配置文件 -->
+	<properties resource="db.properties"/>
+	
+	<typeAliases>
+		<!-- 为实体类 com.company.project.model.User 配置别名 _User -->
+		<!-- <typeAlias type="com.company.project.model.User" alias="_User"/> -->
+		<!-- 为 com.company.project.model 包下的所有实体类配置别名，默认只保留实体类名 -->
+		<package name="com.company.project.model"/>
+	</typeAliases>
+	
+	<!-- 
+		development: 开发模式
+		work: 工作模式
+	 -->
+	<environments default="development">
+		<environment id="development">
+			<transactionManager type="JDBC"/>
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<!-- value 引用 db.properties 文件中的值 -->
+				<property name="driver" value="${driver}"/>
+				<property name="url" value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	
+	<mappers>
+		<!-- 注册映射文件 -->
+		<mapper resource="com/company/project/mapper/userMapper.xml"/>
+		<mapper resource="com/company/project/mapper/orderMapper.xml"/>
+		<mapper resource="com/company/project/mapper/classMapper.xml"/>
+		<!-- 注册映射接口 -->
+		<mapper class="com.company.project.mapper.userMapperI"/>
+	</mappers>
+	
+</configuration>
